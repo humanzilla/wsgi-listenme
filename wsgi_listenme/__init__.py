@@ -1,4 +1,4 @@
-
+# coding=utf-8
 
 class ListenMeMiddleware(object):
     def __init__(self, application, publish=None, tags=None):
@@ -17,4 +17,13 @@ class ListenMeMiddleware(object):
         """Call the application and capture request and responses to later
         publish to `self.publish` address
         """
-        return self.application(environ, response)
+        response = self.application(environ, response)
+
+        for event in response:
+            yield event
+
+    def capture_request(self):
+        pass
+
+    def capture_response(self):
+        pass
